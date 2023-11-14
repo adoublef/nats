@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      target: runtime
+    ports: ["8080:80"]
+    networks: ["nats-embed"]
+
+  iad-embed:
+    container_name: iad-embed
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/embed/iad.conf:/etc/nats.conf"]
+    environment:
+      - FLY_REGION=iad
+    ports: ["8081:8080"]
+    networks: ["nats-embed"]
+
+  lhr-embed:
+    container_name: lhr-embed
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/embed/lhr.conf:/etc/nats.conf"]
+    environment:
+      - FLY_REGION=lhr
+    ports: ["8082:8080"]
+    networks: ["nats-embed"]
+
+  syd-embed:
+    container_name: syd-embed
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/embed/syd.conf:/etc/nats.conf"]
+    environment:
+      - FLY_REGION=syd
+    ports: ["8083:8080"]
+    networks: ["nats-embed"]
+
+networks:
+  nats-embed:
+    name: nats-embed

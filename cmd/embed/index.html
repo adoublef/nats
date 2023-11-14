@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📡 {{env "FLY_REGION"}}</title>
+</head>
+
+<body>
+    <main>
+        <header>
+            <hgroup>
+                <h1>Client/Server Architecture</h1>
+                <h2>Connected to server: {{env "FLY_REGION"}}</h2>
+            </hgroup>
+        </header>
+        <section id="new">
+            <form action="/" method="post">
+                <input type="text" name="message" id="message">
+                <button type="submit">Send</button>
+            </form>
+        </section>
+        <section id="log">
+            <ul>
+                {{range .}}
+                <li>
+                    <article>
+                        <p>{{.Content}}</p>
+                        <p><small>Send from {{.Region}}</small></p>
+                    </article>
+                </li>
+                {{end}}
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
