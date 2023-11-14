@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      target: runtime
+    ports: ["8080:80"]
+    networks: ["nats"]
+
+  iad:
+    container_name: iad-go
+    depends_on: ["iad-nats"]
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-nats", "nats://iad-nats:4222"]
+    environment:
+      - FLY_REGION=iad
+    networks: ["nats"]
+
+  iad-nats:
+    container_name: iad-nats
+    image: nats
+    command: ["-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/iad.conf:/etc/nats.conf"]
+    networks: ["nats"]
+
+  lhr:
+    container_name: lhr-go
+    depends_on: ["lhr-nats"]
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-nats", "nats://lhr-nats:4222"]
+    environment:
+      - FLY_REGION=lhr
+    networks: ["nats"]
+
+  lhr-nats:
+    container_name: lhr-nats
+    image: nats
+    command: ["-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/lhr.conf:/etc/nats.conf"]
+    ports: ["8222:8222"]
+    networks: ["nats"]
+
+  syd:
+    container_name: syd-go
+    depends_on: ["syd-nats"]
+    build:
+      context: .
+      target: runtime
+    command: ["./a", "-nats", "nats://syd-nats:4222"]
+    environment:
+      - FLY_REGION=syd
+    networks: ["nats"]
+
+  syd-nats:
+    container_name: syd-nats
+    image: nats
+    command: ["-c", "/etc/nats.conf"]
+    volumes: ["./nats/etc/syd.conf:/etc/nats.conf"]
+    networks: ["nats"]
+
+networks:
+  nats:
+    external: true
+    name: nats

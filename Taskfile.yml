@@ -1,0 +1,30 @@
+version: '3'
+
+tasks:
+  default:
+    desc: list tasks
+    cmds:
+      - task --list-all
+
+  cache:
+    desc: cache dependencies
+    cmds:
+      - go mod tidy
+
+  stop:
+    desc: terminate application
+    cmds:
+      - docker-compose down --volumes
+
+  start:
+    desc: run application
+    deps:
+      - stop
+      - cache
+    cmds:
+      - docker-compose up -d --build --force-recreate
+
+  logs:
+    desc: list logs
+    cmds:
+      - docker-compose logs -f
