@@ -1,6 +1,17 @@
 # nats
 
-## Embed
+## Running locally
+
+To run locally you will require:
+
+- Docker
+
+The following are optional:
+
+- Go
+- Taskfile
+
+### Running using the embedded server
 
 To run the embedded project use the following command
 
@@ -14,9 +25,8 @@ To stop the containers use the following
 docker-compose -f {{.CONFIG}} down --volumes
 ```
 
-If you have _Taskfile_ installed then you can use the following commands instead
+If you have _Taskfile_ installed then you can use the following command instead
 
 ```bash
 task start CONFIG=docker-compose.embed.yml
-task stop CONFIG=docker-compose.embed.yml
 ```

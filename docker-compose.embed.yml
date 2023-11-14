@@ -9,11 +9,13 @@ services:
     ports: ["8080:80"]
     networks: ["nats-embed"]
 
-  iad-embed:
+  iad:
     container_name: iad-embed
     build:
       context: .
       target: runtime
+      args:
+        - EXE_NAME=embed
     command: ["./a", "-c", "/etc/nats.conf"]
     volumes: ["./nats/etc/embed/iad.conf:/etc/nats.conf"]
     environment:
@@ -21,11 +23,13 @@ services:
     ports: ["8081:8080"]
     networks: ["nats-embed"]
 
-  lhr-embed:
+  lhr:
     container_name: lhr-embed
     build:
       context: .
       target: runtime
+      args:
+        - EXE_NAME=embed
     command: ["./a", "-c", "/etc/nats.conf"]
     volumes: ["./nats/etc/embed/lhr.conf:/etc/nats.conf"]
     environment:
@@ -33,11 +37,13 @@ services:
     ports: ["8082:8080"]
     networks: ["nats-embed"]
 
-  syd-embed:
+  syd:
     container_name: syd-embed
     build:
       context: .
       target: runtime
+      args:
+        - EXE_NAME=embed
     command: ["./a", "-c", "/etc/nats.conf"]
     volumes: ["./nats/etc/embed/syd.conf:/etc/nats.conf"]
     environment:
