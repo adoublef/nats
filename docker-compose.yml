@@ -18,6 +18,7 @@ services:
     command: ["./a", "-nats", "nats://iad-nats:4222"]
     environment:
       - FLY_REGION=iad
+    ports: ["8081:8080"]
     networks: ["nats"]
 
   iad-nats:
@@ -36,6 +37,7 @@ services:
     command: ["./a", "-nats", "nats://lhr-nats:4222"]
     environment:
       - FLY_REGION=lhr
+    ports: ["8082:8080"]
     networks: ["nats"]
 
   lhr-nats:
@@ -55,6 +57,7 @@ services:
     command: ["./a", "-nats", "nats://syd-nats:4222"]
     environment:
       - FLY_REGION=syd
+    ports: ["8083:8080"]
     networks: ["nats"]
 
   syd-nats:
